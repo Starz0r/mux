@@ -574,12 +574,10 @@ func (c *context) NoContent(code int) error {
 }
 
 func (c *context) Redirect(code int, url string) error {
-	// TODO: Am I supposed to be calling response here?
 	if code < 300 || code > 308 {
 		return ErrInvalidRedirectCode
 	}
-	c.response.Header().Set(HeaderLocation, url)
-	c.response.WriteHeader(code)
+	c.request.Redirect(url, code)
 	return nil
 }
 
