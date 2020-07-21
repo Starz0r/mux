@@ -623,6 +623,13 @@ func (e *Echo) StartTLS(address string, certFile, keyFile interface{}, nph http.
 	return e.startTLS(address, nph)
 }
 
+// BodyLimit changes the MaxRequestBodySize the server can handle.
+func (e *Echo) BodyLimit(size int) {
+	// HACK: This is a hack because the middleware doesn't seem to
+	// be able to handle this
+	e.Server.MaxRequestBodySize = size
+}
+
 func filepathOrContent(fileOrContent interface{}) (content []byte, err error) {
 	switch v := fileOrContent.(type) {
 	case string:
